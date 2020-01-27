@@ -1,0 +1,34 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
+- script: 'curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar'
+  displayName: 'Download the latest Unified Agent'
+ 
+- script: 'java -jar wss-unified-agent.jar -c wss-unified-agent.config -apiKey 7cf67d0ebc2846bca7c99183098af64fe4bf7366fd2e44c1bea3edb5f4565a3e -project AzureDevOps Test OpenSSL'
+  displayName: 'Run Unified Agent Scan'
