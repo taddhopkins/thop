@@ -30,5 +30,5 @@ stages:
 - script: 'curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar'
   displayName: 'Download the latest Unified Agent'
  
-- script: 'java -jar wss-unified-agent.jar -c wss-unified-agent.config -apiKey 7cf67d0ebc2846bca7c99183098af64fe4bf7366fd2e44c1bea3edb5f4565a3e -project AzureDevOps Test OpenSSL'
+- script: 'java -jar wss-unified-agent.jar -c wss-unified-agent.config'
   displayName: 'Run Unified Agent Scan'
